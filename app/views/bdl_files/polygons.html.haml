@@ -1,0 +1,67 @@
+= javascript_include_tag "http://mbostock.github.com/d3/d3.v2.js"
+
+%h1
+  BLD Load
+%h2
+  ="#{@bdl_file.filename} - Space Layout"
+%hr
+%body
+
+  %div{:id=>'filter'}
+    Floor Starts With (1,2,...):
+    %input(id="filter_text" type="text" name="filter_text" value="." maxlength="100")
+    %br
+  %div{:id=>'buttons'}
+    %button(id="filter_button")
+      Filter
+
+  %div{:id=>'layout',:class=>'chart'}
+    %script{:type => 'text/javascript'}
+      :plain
+        // set screen
+        var vis = d3.select("#layout").
+        append("svg:svg").
+        attr("width", 1800).
+        attr("height", 1800);
+
+        // Create lines per polygon
+        var lineFunction = d3.svg.line()
+        .x(function(d) { return d[0]*5; })
+        .y(function(d) { return d[1]*5; })
+        .interpolate("linear");
+
+        function redraw(vis,filter){
+          filter = "^"+filter
+          var keys = Object.keys(data);
+          for( var i = 0 ; i < keys.length ; i++ ){
+            if(filter == null || keys[i].match(filter) != null){
+              polygon(vis,data[keys[i]]);
+            }
+          };
+        };
+
+        function polygon(vis, local_data){
+          vis.append("path").
+          attr("d",lineFunction(local_data)).
+          attr("stroke","black").
+          attr("stroke-width",2).
+          attr("fill","none")
+        };
+
+
+        // pull in data
+        var data = #{@vertices.to_json};
+        var filter = #{@filter}
+        var textBox = document.getElementById("filter_text")
+        console.log(filter)
+        textBox.value = filter
+        redraw(vis, filter)
+
+        document.getElementById("filter_button").onclick=function(){
+          url = window.location.protocol + "://" +
+                window.location.host + "/" +
+                window.location.pathname + '?filter=' + document.getElementById("filter_text").value;
+                console.log(url);
+          window.location.href = 'polygons?filter='+ document.getElementById("filter_text").value;
+          return false;
+        };

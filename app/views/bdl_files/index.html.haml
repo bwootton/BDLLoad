@@ -1,0 +1,13 @@
+%header
+  %h1 BDL Parse - Uploaded Files
+
+
+%body
+  %hr
+  %ul
+    -@bdl_files.each do |file|
+      %li
+        =link_to file.filename, :controller => 'bdl_files', :action => "show", :id => file.id
+  %br
+  %hr
+  =link_to "Upload new file", :controller => 'bdl_files', :action => "new"

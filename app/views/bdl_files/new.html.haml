@@ -1,0 +1,11 @@
+%h1 BDL Parse - Upload New File
+-content_for :header, "Upload a bld file to parse"
+
+%hr
+=form_for :datafile, :url =>'/bdl_files', :html => {:method=>:post,:multipart => true} do |form|
+  .file_choice
+    Choose a file to upload
+    = form.file_field :datafile
+  .b_submit
+    = form.submit :upload
+

@@ -1,0 +1,25 @@
+%h1 BDL Load - Instruction
+%hr
+%body
+  Type:
+  =@instruction.i_type
+  %br
+  Uname:
+  =@instruction.uname
+  %hr
+  %h2
+    Attributes
+  %table
+    %tr
+      %th
+        Name
+      %th
+        Value
+    - @instruction.name_values.each do |name_value|
+      %tr
+        %td
+          =name_value.name
+        %td
+          =name_value.value
+
+

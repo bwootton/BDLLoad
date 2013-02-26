@@ -1,0 +1,21 @@
+%h1 BDL File
+%body
+  .filename
+    %b
+      Filename:
+    %br
+    =@bdl_file.filename
+  %hr
+  %br
+  .options
+    = link_to "Building Layout", :controller => :bdl_files, :action => :polygons, :id => @bdl_file.id, :filter => "1"
+
+  %br
+  %hr
+  .file_contents
+    %b
+      Instructions:
+    %br
+    -@bdl_file.instructions.each do |instruction|
+      = link_to "#{instruction.i_type},#{instruction.uname}", :controller => :instructions, :action => :show, :id => instruction.id
+      %br
